@@ -1,0 +1,27 @@
+{$DOMAIN}:80 {
+    root /var/www/html/public
+    index index.php
+    gzip
+    fastcgi / php:9000 php
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+}
+
+mailhog.{$DOMAIN}:80 {
+	gzip
+	proxy / mailhog:8025 {
+		transparent
+		websocket
+	}
+}
+
+adminer.{$DOMAIN}:80 {
+    root /var/www/adminer
+    index index.php
+    gzip
+	fastcgi / php:9000 php
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+}
